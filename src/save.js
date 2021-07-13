@@ -11,7 +11,7 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -23,7 +23,8 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {WPElement} Element to render.
  */
 export default function save( { attributes } ) {
-	const { slides } = attributes;
+	const { slides, title } = attributes;
+	const rtAllowedBlocks = [ 'core/button' ];
 
 	return (
 		<div { ...useBlockProps.save() }>
@@ -31,12 +32,16 @@ export default function save( { attributes } ) {
 				slides.map( ( item ) => {
 					return (
 						<div>
-							{item.title }
-							<br/>
+							<h2>{ item.title }</h2>
+
+							<img src={ item.image?.url?.medium?.url } />
+
 						</div>
 					);
 				} )
 			}
+
+			<InnerBlocks.Content />
 		</div>
 	);
 }

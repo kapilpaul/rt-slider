@@ -29,17 +29,27 @@ import { __ } from '@wordpress/i18n';
 registerBlockType( 'rtslider/rt-slider', {
 
 	attributes: {
+		title: {
+			type: 'string',
+			source: 'html',
+			selector: 'h2'
+		},
 		slides: {
 			type: 'array',
 			default: [
 				{
-					title: __( 'Slide 1', 'rt-slider' )
+					navigationTitle: __( 'Slide 1', 'rt-slider' ),
+					title: '',
+					image: {
+						url: {},
+						id: 0
+					}
 				}
 			]
 		},
 		currentTab: {
 			type: 'string',
-			default: 1
+			default: 0
 		}
 	},
 

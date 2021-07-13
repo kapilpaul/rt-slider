@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
 import { Button } from '@wordpress/components';
-import { useBlockProps } from '@wordpress/block-editor';
+import { RichText, useBlockProps, MediaPlaceholder, InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -32,7 +32,9 @@ import './editor.scss';
  */
 export default function Edit( { attributes, setAttributes } ) {
 
-	const { slides, currentTab } = attributes;
+	const { slides, currentTab, title } = attributes;
+
+	const rtAllowedBlocks = [ 'core/button' ];
 
 	const handleSubmit = () => {
 
@@ -41,7 +43,10 @@ export default function Edit( { attributes, setAttributes } ) {
 		let currentLength = slides.length + 1;
 
 		sliderSlides.push( {
-			title: __( 'Slide ' + currentLength, 'rt-slider' )
+			navigationTitle: __( 'Slide ' + currentLength, 'rt-slider' ),
+			image: {
+				id: 0
+			}
 		} );
 
 		setAttributes( { slides: sliderSlides } );
@@ -50,6 +55,25 @@ export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( {
 		className: 'slider-container',
 	} );
+
+	const onChangeTitle = ( key, value ) => {
+		const sliderSlides = [ ...slides ];
+
+		sliderSlides[key]['title'] = value; 
+
+		setAttributes( { slides: sliderSlides } );
+	};
+
+	const onSelectSlideImage = ( key, image ) => {
+		const sliderSlides = [ ...slides ];
+
+		sliderSlides[key]['image'] = {
+			url: image.sizes,
+			id: image.id
+		};
+
+		setAttributes( { slides: sliderSlides } );
+	};
 
 	return (
 		<div { ...blockProps }>
@@ -60,13 +84,13 @@ export default function Edit( { attributes, setAttributes } ) {
 							<div className={ currentTab === key ? 'navigation-item active' : 'navigation-item' } 
 								onClick={ () => setAttributes( { currentTab: key } ) }
 							>
-								{item.title }
+								{item.navigationTitle }
 							</div>
 						);
 					} )
 				}
 
-				<Button isPrimary={ true } text={ '+' } onClick={ () => handleSubmit() }></Button>
+				<Button isPrimary={ true } isSmall={ true } text={ '+' } onClick={ () => handleSubmit() }></Button>
 
 			</div>
 
@@ -79,7 +103,30 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 
 						return (
-							<p>There is an autosave of this post that is more recent than the version below. { key }</p>
+							<>
+								<div className="slides-content-container__slider-item">
+									<RichText key="editable" tagName="h2" placeholder={ __( 'Title Here', 'rt-slider' ) } value={ item.title } 
+										onChange={ ( value ) => onChangeTitle( key, value ) }
+										label={ __( 'Title', 'rt-slider' ) }
+									/>
+
+									<div className="slides-content-container__slider-item__image-uploader">
+										<MediaPlaceholder
+											onSelect={ ( value ) => onSelectSlideImage( key, value ) }
+											value={ item.image.id }
+											allowedTypes = { [ 'image' ] }
+											multiple = { false }
+											labels = { { title: 'The Image' } }
+										>
+											<img src={ item.image?.url?.medium?.url } />
+										</MediaPlaceholder>
+									</div>
+
+									<InnerBlocks allowedBlocks={ rtAllowedBlocks } key={ key } />
+
+									<hr/>
+								</div>
+							</>
 						);
 					} )
 				}
