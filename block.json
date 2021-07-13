@@ -1,0 +1,15 @@
+{
+	"apiVersion": 2,
+	"name": "rtslider/rt-slider",
+	"title": "RT Slider",
+	"category": "theme",
+	"icon": "slides",
+	"description": "Custom slider block",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "rt-slider",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}

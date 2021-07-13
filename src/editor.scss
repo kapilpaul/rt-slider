@@ -1,0 +1,26 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+ .slider-container {
+    padding: 10px;
+ }
+
+.slides-navigation {
+    display: flex;
+    margin-bottom: 20px;
+
+    .navigation-item {
+        padding: 10px 15px;
+        border: 1px solid #fff;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+
+        &.active {
+            border: 1px solid #ddd;
+            border-bottom: 0;
+        }
+    }
+}
