@@ -40,8 +40,6 @@ export default function save( { attributes } ) {
 					);
 				} )
 			}
-
-			<InnerBlocks.Content />
 		</div>
 	);
 }

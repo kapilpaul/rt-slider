@@ -12,7 +12,8 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
 import { Button } from '@wordpress/components';
-import { RichText, useBlockProps, MediaPlaceholder, InnerBlocks } from '@wordpress/block-editor';
+import { RichText, useBlockProps, MediaPlaceholder } from '@wordpress/block-editor';
+import RtButton from './rtbutton';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -44,8 +45,16 @@ export default function Edit( { attributes, setAttributes } ) {
 
 		sliderSlides.push( {
 			navigationTitle: __( 'Slide ' + currentLength, 'rt-slider' ),
+			title: '',
 			image: {
+				url: {},
 				id: 0
+			},
+			button: {
+				title: 'Learn More',
+				titleColor: '#555555',
+				backgroundColor: '#dddddd',
+				url: '',
 			}
 		} );
 
@@ -122,7 +131,7 @@ export default function Edit( { attributes, setAttributes } ) {
 										</MediaPlaceholder>
 									</div>
 
-									<InnerBlocks allowedBlocks={ rtAllowedBlocks } key={ key } />
+									<RtButton attributes={ attributes } setAttributes={ setAttributes } indexKey={ key } buttonData={ item.button } />
 
 									<hr/>
 								</div>

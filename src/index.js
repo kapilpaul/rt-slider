@@ -29,11 +29,6 @@ import { __ } from '@wordpress/i18n';
 registerBlockType( 'rtslider/rt-slider', {
 
 	attributes: {
-		title: {
-			type: 'string',
-			source: 'html',
-			selector: 'h2'
-		},
 		slides: {
 			type: 'array',
 			default: [
@@ -43,6 +38,12 @@ registerBlockType( 'rtslider/rt-slider', {
 					image: {
 						url: {},
 						id: 0
+					},
+					button: {
+						title: 'Learn More',
+						titleColor: '#555555',
+						backgroundColor: '#dddddd',
+						url: '',
 					}
 				}
 			]
